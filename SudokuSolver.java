@@ -24,7 +24,6 @@ class SudokuSolver {
 			
 		}
 		
-		
 		for(int i=0; i<9; ++i){
 			for(int j=0; j<9; ++j){
 				if(s.field[i][j]==0){
@@ -42,7 +41,7 @@ class SudokuSolver {
 		}
 	}
 
-	void checkSmall(int i, int j){ //Проверяю малые квадраты
+	private void checkSmall(int i, int j){ //Проверяю малые квадраты
 		//Определяю квадрат
 		int smallX = 0;
 		int smallY = 0;
@@ -63,9 +62,6 @@ class SudokuSolver {
 			}
 		}
 		//Удаляю из вариантов найденные числа
-		
-		
-		
 		for(int counter=0; counter<have.size(); counter++){
 			variants.get(i).get(j).removeElement(have.get(counter));
 		}
@@ -74,7 +70,7 @@ class SudokuSolver {
 		return;
 	}
 
-	void checkRow(int i, int j){ //Проверяю строки
+	private void checkRow(int i, int j){ //Проверяю строки
 		//Определяю строку
 		int row = i;
 		
@@ -94,7 +90,7 @@ class SudokuSolver {
 		
 		return;
 	}
-		void checkColumn(int i, int j){ //Проверяю столбцы
+	private void checkColumn(int i, int j){ //Проверяю столбцы
 		//Определяю столбец
 		int column = j;
 		
@@ -114,7 +110,7 @@ class SudokuSolver {
 		return;
 	}
 
-	void checkAll(){
+	private void checkAll(){
 		for(int i=0; i<9; ++i){
 			for(int j=0; j<9; ++j){
 				checkSmall(i, j); //Проверяю малые квадраты
@@ -124,14 +120,16 @@ class SudokuSolver {
 		}
 	}
 	
-	boolean findObvious(){
+	private boolean findObvious(){
 		//Ищем ячейки в которых только один вариант
-		boolean flag=false;
+		boolean flag=false; // Показывает, есть ли на поле очевидные ячейки, 
+							// в которых только один вариант
 		for(int i=0; i<9; ++i){
 			for(int j=0; j<9; ++j){
 				//System.out.println(variants.get(i).get(j).size());
 				if(variants.get(i).get(j).size()==1){
 					s.field[i][j]=variants.get(i).get(j).firstElement();
+					variants.get(i).get(j).removeAllElements();
 					flag=true;
 					//return flag;
 				}
@@ -140,7 +138,7 @@ class SudokuSolver {
 		return flag;
 	}
 	
-	boolean findPairs(){ 
+	private boolean findPairs(){ 
 		//Ищем ячейки в которых 2 варианта
 		boolean flag=false;
 		for(int i=0; i<9; ++i){
@@ -155,14 +153,14 @@ class SudokuSolver {
 		return flag;
 	}
 	
-	int numOfVariants(int i, int j){
+	private int numOfVariants(int i, int j){
 		return variants.get(i).get(j).size();
 	}
 	
-	boolean isFailed(){
+	private boolean isFailed(){
 		return false;
 	}
-	boolean isFinished(){
+	private boolean isFinished(){
 		boolean flag = true;
 		checkAll();
 		for(int i=0; i<9; ++i){
@@ -176,7 +174,7 @@ class SudokuSolver {
 	}
 	
 	
-	void solve(){
+	public void solve(){
 		int counter=1;
 		boolean success=false;
 		
@@ -207,10 +205,25 @@ class SudokuSolver {
 		System.out.println(isFinished());
 	}
 	
+	public void treeSolve(){
+		//Проверяю все клетки
+		checkAll();
+		
+		//Если однозначные клетки есть - заполняю их
+		boolean obv = findObvious();
+		
+		//Сортирую клетки по количеству вариантов
+		
+		SudokuStack stack = new SudokuStack();
+		
+		
+		
+		
+	}
 	
 	
 	
-	void printVariants(int varCount){
+	public void printVariants(int varCount){
 		
 	
 		for(int i=0; i<9; ++i){
